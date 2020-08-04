@@ -2,7 +2,7 @@
 Execute a Kahoot game which is provided with questions and answers from a server
 """
 
-import CONSTANTS
+import CONSTANTSs
 from socket import *
 from threading import Thread
 import time
@@ -31,22 +31,23 @@ def true_answer():
     Then send a massage to a server to provide further information
     :return: None.
     """
-    CONSTANTS.count_true += 1
-    CONSTANTS.count_game += 1
+    txt = "True! Well done:)"
+    CONSTANTSs.count_true += 1
+    CONSTANTSs.count_game += 1
     lst_of_widgets = find_widgets(answer_frame)
     for widget in lst_of_widgets:
         widget.grid_forget()
-    label = Label(answer_frame, text="True! Well done:)")
+    label = Label(answer_frame, text=txt)
     label.grid(row=5, column=1)
-    lst_of_widgets = find_widgets(frame)
+    lst_of_widgets = find_widgets(kahoot_frame)
     for widget in lst_of_widgets:
         widget.grid_forget()
-    if CONSTANTS.count_game == 3:
-        txt = Label(frame, text=f"Quiz ended, you were right in "
-                                f"{CONSTANTS.count_true} answers")
+    if CONSTANTSs.count_game == 3:
+        txt = Label(kahoot_frame, text=f"Quiz ended, you were right in "
+                                       f"{CONSTANTSs.count_true} answers")
         txt.grid()
         answer_frame.destroy()
-    client.send(b'Another one!')
+    client.send(b'True')
 
 
 def false_answer():
@@ -57,21 +58,22 @@ def false_answer():
     Then send a massage to a server to provide further information
     :return: None.
     """
-    CONSTANTS.count_game += 1
+    txt = "Wrong! Maybe next time!"
+    CONSTANTSs.count_game += 1
     lst_of_widgets = find_widgets(answer_frame)
     for widget in lst_of_widgets:
         widget.grid_forget()
-    label = Label(answer_frame, text="Wrong! Maybe next time!")
+    label = Label(answer_frame, text=txt)
     label.grid(row=5, column=1)
-    lst_of_widgets = find_widgets(frame)
+    lst_of_widgets = find_widgets(kahoot_frame)
     for widget in lst_of_widgets:
         widget.grid_forget()
-    if CONSTANTS.count_game == 3:
-        txt = Label(frame, text=f"Quiz ended, you were right in "
-                                f"{CONSTANTS.count_true} answers")
+    if CONSTANTSs.count_game == 3:
+        txt = Label(kahoot_frame, text=f"Quiz ended, you were right in "
+                                f"{CONSTANTSs.count_true} answers")
         txt.grid()
         answer_frame.destroy()
-    client.send(b'Another one!')
+    client.send(b'False')
 
 
 def game(question: str, answer1: str, answer2: str, answer3: str, answer4: str,
@@ -88,45 +90,45 @@ def game(question: str, answer1: str, answer2: str, answer3: str, answer4: str,
     :param corr: The number of the correct answer.
     :return: None.
     """
-    text = Label(frame, text="welcome to Kahoot!", fg="red")
-    ques = Label(frame, text=question, fg="blue")
+    text = Label(kahoot_frame, text="welcome to Kahoot!", fg="red")
+    ques = Label(kahoot_frame, text=question, fg="blue")
     if corr == 1:
-        ans1 = Button(frame, text=answer1, command=true_answer, bg="yellow",
+        ans1 = Button(kahoot_frame, text=answer1, command=true_answer, bg="yellow",
                       padx=51.5)
-        ans2 = Button(frame, text=answer2, command=false_answer, bg="blue",
+        ans2 = Button(kahoot_frame, text=answer2, command=false_answer, bg="blue",
                       padx=57)
-        ans3 = Button(frame, text=answer3, command=false_answer, bg="red",
+        ans3 = Button(kahoot_frame, text=answer3, command=false_answer, bg="red",
                       padx=50)
-        ans4 = Button(frame, text=answer4, command=false_answer, bg="green",
+        ans4 = Button(kahoot_frame, text=answer4, command=false_answer, bg="green",
                       padx=50)
     elif corr == 2:
-        ans1 = Button(frame, text=answer1, command=false_answer, bg="yellow",
+        ans1 = Button(kahoot_frame, text=answer1, command=false_answer, bg="yellow",
                       padx=51.5)
-        ans2 = Button(frame, text=answer2, command=true_answer, bg="blue",
+        ans2 = Button(kahoot_frame, text=answer2, command=true_answer, bg="blue",
                       padx=57)
-        ans3 = Button(frame, text=answer3, command=false_answer, bg="red",
+        ans3 = Button(kahoot_frame, text=answer3, command=false_answer, bg="red",
                       padx=50)
-        ans4 = Button(frame, text=answer4, command=false_answer, bg="green",
+        ans4 = Button(kahoot_frame, text=answer4, command=false_answer, bg="green",
                       padx=50)
     elif corr == 3:
-        ans1 = Button(frame, text=answer1, command=false_answer, bg="yellow",
+        ans1 = Button(kahoot_frame, text=answer1, command=false_answer, bg="yellow",
                       padx=51.5)
-        ans2 = Button(frame, text=answer2, command=false_answer, bg="blue",
+        ans2 = Button(kahoot_frame, text=answer2, command=false_answer, bg="blue",
                       padx=57)
-        ans3 = Button(frame, text=answer3, command=true_answer, bg="red",
+        ans3 = Button(kahoot_frame, text=answer3, command=true_answer, bg="red",
                       padx=50)
-        ans4 = Button(frame, text=answer4, command=false_answer, bg="green",
+        ans4 = Button(kahoot_frame, text=answer4, command=false_answer, bg="green",
                       padx=50)
     else:
-        ans1 = Button(frame, text=answer1, command=false_answer, bg="yellow",
+        ans1 = Button(kahoot_frame, text=answer1, command=false_answer, bg="yellow",
                       padx=51.5)
-        ans2 = Button(frame, text=answer2, command=false_answer, bg="blue",
+        ans2 = Button(kahoot_frame, text=answer2, command=false_answer, bg="blue",
                       padx=57)
-        ans3 = Button(frame, text=answer3, command=false_answer, bg="red",
+        ans3 = Button(kahoot_frame, text=answer3, command=false_answer, bg="red",
                       padx=50)
-        ans4 = Button(frame, text=answer4, command=true_answer, bg="green",
+        ans4 = Button(kahoot_frame, text=answer4, command=true_answer, bg="green",
                       padx=50)
-    space = Label(frame, text="")
+    space = Label(kahoot_frame, text="")
     text.grid(row=0, column=1)
     ques.grid(row=1, column=1)
     space.grid(row=2, column=0)
@@ -144,8 +146,24 @@ def run():
     in an infinite loop
     :return: None.
     """
+
+    if CONSTANTSs.count_game == 3:
+        names = client.recv(2048).decode()
+        str1 = Label(names_frame, text=names)
+        str1.grid(row=3, column=1)
+        time.sleep(5)
+        client.close()
+
     time.sleep(0.1)
     while True:
+        names = client.recv(2048).decode()
+        client.send(b'Ok!')
+        title = Label(names_frame, text="answer frame:", bg="red")
+        title.grid(row=1, column=1)
+        space = Label(names_frame, text="")
+        space.grid(row=2, column=1)
+        str1 = Label(names_frame, text=names)
+        str1.grid(row=3, column=1)
         question = client.recv(2048).decode()
         client.send(b'hi')
         answer1 = client.recv(2048).decode()
@@ -163,12 +181,15 @@ def run():
 
 if __name__ == '__main__':
     root = Tk()
-    frame = LabelFrame(root)
-    frame.grid(row=1)
+    kahoot_frame = LabelFrame(root)
+    kahoot_frame.grid(row=1, column=1)
     answer_frame = LabelFrame(root)
-    answer_frame.grid(row=2)
+    answer_frame.grid(row=2, column=1)
+    names_frame = LabelFrame(root)
+    names_frame.grid(row=1, column=2)
     client = socket(AF_INET, SOCK_STREAM)
-    client.connect((CONSTANTS.HOST, CONSTANTS.PORT))
-
+    client.connect((CONSTANTSs.HOST, CONSTANTSs.PORT))
+    username = input(f"{client.recv(2048).decode()} ")
+    client.send(username.encode())
     Thread(target=run).start()
     root.mainloop()
